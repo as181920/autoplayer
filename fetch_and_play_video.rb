@@ -6,11 +6,9 @@ require "gtk2"
 
 Mail.defaults do
   delivery_method :smtp, {
-    #address: "smtp.139.com",
     address: "smtp.gmail.com",
-    #user_name: "13816956163@139.com",
-    user_name: "as181920",
-    password: "google.181920",
+    user_name: "xinye181920",
+    password: "xinye.181920",
     authentication: "plain",
   }
 end
@@ -18,7 +16,7 @@ end
 def mail_notification(msg)
   mail = Mail.deliver do
     to "13816956163@139.com"
-    from "as181920@gmail.com"
+    from "xinye181920@gmail.com"
     subject "xinye video program error!"
     text_part do
       body msg
