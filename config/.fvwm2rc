@@ -1,0 +1,251 @@
+DeskTopSize 2x3
+ColormapFocus FollowsMouse
+SnapAttraction 20 All Screen
+
+MenuStyle * fvwm, Foreground maroon, Background grey60, Greyed grey40
+#MenuStyle * Font -adobe-times-bold-r-*-*-14-*-*-*-*-*-*-*
+MenuStyle * Font "StringEncoding=UTF-8:xft:文泉驿微米黑:size=11:encoding=iso10646-1"
+
+#Style *           Font -adobe-times-bold-r-*-*-12-*-*-*-*-*-*-*
+#Style *           IconFont -adobe-times-bold-r-*-*-12-*-*-*-*-*-*-*
+Style *           Font "StringEncoding=UTF-8:xft:文泉驿微米黑:size=11:encoding=iso10646-1"
+Style *           IconFont "StringEncoding=UTF-8:xft:文泉驿微米黑:size=11:encoding=iso10646-1"
+Style *           HilightFore black, HilightBack palevioletred
+Style *           BorderWidth 5, HandleWidth 5
+Style *           Icon unknown1.xpm, Color lightgrey/dimgrey
+Style *           MWMFunctions, MWMDecor, HintOverride
+Style *           DecorateTransient, NoPPosition
+Style *           IconBox 0 -10 -280 -1
+Style *           FocusFollowsMouse
+Style *           TileCascadePlacement
+
+Style Fvwm*       NoTitle,  Sticky, WindowListSkip
+Style Fvwm*       BorderWidth 2, CirculateSkipIcon, CirculateSkip
+Style FvwmPager   StaysOnTop
+Style FvwmBanner  StaysOnTop
+Style XTerm       Icon xterm.xpm, SloppyFocus, IconBox -70 1 -1 -140
+Style rxvt        Icon term.xpm, SloppyFocus, IconBox -70 1 -1 -140
+Style rxvt        MWMBorder, MWMButtons
+
+Silent Key Help R A Popup MenuFvwmRoot
+Key F1 A M Popup MenuFvwmRoot
+Key Tab A M WindowList Root c c NoDeskSort
+Key Next         A       SCM     Next [*] Focus
+Key Prior        A       SCM     Prev [*] Focus
+Key Super_L A A WindowList
+Key 1 A M GotoPage 0 0
+Key 2 A M GotoPage 1 0
+Key 3 A M GotoPage 0 1
+Key 4 A M GotoPage 1 1
+Key 5 A M GotoPage 0 2
+Key 6 A M GotoPage 1 2
+
+# Basic Mouse controls:
+Mouse 1 T   A FuncFvwmRaiseLowerX Move
+Mouse 1 FS  A FuncFvwmRaiseLowerX Resize
+Mouse 2 FST A FuncFvwmRaiseLowerX Move
+AddToFunc FuncFvwmRaiseLowerX
++ I Raise
++ M $0
++ D Lower
+# some simple default mouse bindings:
+Mouse 1 R       A       Menu MenuFvwmRoot Nop
+Mouse 2 R       A       Menu MenuFvwmWindowOps Nop
+Mouse 3 R       A       WindowList
+#   for the title bar buttons:
+Mouse 0 1       A       Menu MenuFvwmWindowOps2 Close
+Mouse 0 3       A       Iconify
+Mouse 0 5       A       Close
+# Mouse 0 2       A       FuncFvwmMaximize
+Mouse 0 2       A       Maximize 100 100
+Mouse 0 4       A       Maximize grow grow
+Mouse 0 6       A       Stick
+#   for other parts of the window/borders/icons:
+Mouse 1 F       A       FuncFvwmResizeOrRaise
+Mouse 1 TS      A       FuncFvwmMoveOrRaise
+Mouse 1 I       A       FuncFvwmMoveOrIconify
+Mouse 2 I       A       Iconify
+Mouse 2 FST     A       Menu MenuFvwmWindowOps2 Nop
+Mouse 3 TSIF    A       RaiseLower
+
+######################## Initialization Functions ############################
+AddToFunc StartFunction
++ I Module FvwmButtons
+#+ I Module FvwmWinList
+#+ I Exec exec `qiv -x -m /home/andersen/Pictures/handsmini.jpg`
++ I Exec exec `/usr/bin/ruby /home/xinye/autoplayer/fetch_and_play_video.rb`
+# + I Module FvwmPager
+
+AddToFunc InitFunction
++ I exec xsetroot -mod 2 2 -fg rgb:55/40/55 -bg rgb:70/50/70
+
+######################## Menus ###################
+DestroyMenu MenuFvwmRoot
+AddToMenu MenuFvwmRoot  "$[gt.Menu]"             Title
++                       "&1. CUI"               Popup MenuTerminal
++                       "&2. Browser"           Popup MenuBrowser
++                       "&3. IM"                Popup MenuIM
++                       "&3. Tool"              Popup MenuTool
++                       ""              Nop
++                       "&L. lock"              Exec exec xtrlock
++                       ""              Nop
++                       "&0. $[gt.Fvwm]"        Popup MenuQuitVerify
+
+# The window Ops menus exhibit a different HotKey style.
+# There are 2 versions of the WindowOps Menu, meant to be bound to different
+# things.  Here is the "common" part:
+DestroyFunc FuncFvwmWindowCommon
+AddToFunc FuncFvwmWindowCommon
++ I AddToMenu $0 "$[gt.&Move]"              Move
++ I AddToMenu $0 "$[gt.&Resize]"            Resize
++ I AddToMenu $0 "$[gt.R&aise]"             Raise
++ I AddToMenu $0 "$[gt.&Lower]"             Lower
++ I AddToMenu $0 "$[gt.(De)&Iconify]"       Iconify
++ I AddToMenu $0 "$[gt.(Un)&Stick]"         Stick
++ I AddToMenu $0 "$[gt.(Un)Ma&ximize]"      Maximize
++ I AddToMenu $0 ""                 Nop
++ I AddToMenu $0 "$[gt.&Close]"             Close
++ I AddToMenu $0 "$[gt.&Delete]"            Delete
++ I AddToMenu $0 "$[gt.Destroy]"            Destroy
++ I AddToMenu $0 ""                 Nop
+
+# First windowops menu, bound to:
+# mouse 2 on root
+# Root menu
+DestroyMenu MenuFvwmWindowOps
+AddToMenu MenuFvwmWindowOps     "$[gt.Window Ops]"    Title
+FuncFvwmWindowCommon MenuFvwmWindowOps
++ "$[gt.Re&fresh Window]" RefreshWindow
+
+# Second windowops menu, bound to:
+# any mouse on titlebar button 1
+# mouse 2 on frame, side or titlebar
+DestroyMenu MenuFvwmWindowOps2
+AddToMenu MenuFvwmWindowOps2
+FuncFvwmWindowCommon MenuFvwmWindowOps2
++ Scroll&Bar       Module FvwmScroll 2 2
++ "&$[gt.Print]"           FuncFvwmPrint
++ "$[gt.Print Re&verse]" FuncFvwmPrintReverse
+
+DestroyMenu MenuTerminal
+AddToMenu MenuTerminal
++ "&T. $[gt.Xterm]"            Exec exec xterm
++ "&V. $[gt.Rxvt]"             Exec exec rxvt
+
+DestroyMenu MenuTool
+AddToMenu MenuTool
++ "&D. $[gt.Dia]"              Exec exec dia
++ "&E. $[gt.gedit]"            Exec exec gedit
++ "&V. $[gt.gvim]"             Exec exec gvim
++ "&F. $[gt.freemind]"         Exec exec freemind
++ "&G. $[gt.Goldendict]"       Exec exec goldendict
++ "&P. $[gt.Gpick]"            Exec exec gpick
++ "&O. $[gt.Xosview]"          Exec exec xosview -page +battery -ints +net
++ "&T. $[gt.Xclock]"           Exec exec xclock
+
+DestroyMenu MenuIM
+AddToMenu MenuIM
++ "&P. $[gt.Pidgin]"           Exec exec pidgin
++ "&Y. $[gt.Empathy]"          Exec exec empathy
++ "&S. $[gt.Skype]"            Exec exec skype
++ "&F. $[gt.Openfetion]"       Exec exec openfetion
++ "&R. $[gt.Xchat]"            Exec exec xchat
+
+DestroyMenu MenuBrowser
+AddToMenu MenuBrowser
++ "&F. $[gt.Firefox]"          Exec exec firefox
++ "&C. $[gt.Chromium]"         Exec exec chromium-browser
++ "&U. $[gt.Uzbl]"             Exec exec uzbl-browser
++ ""                         Nop
++ "&X. $[gt.Xfe]"              Exec exec xfe
++ ""                         Nop
++ "&L. $[gt.Libreoffice]"      Exec exec libreoffice
++ "&E. $[gt.Evince]"           Exec exec evince
++ "&P. $[gt.Xpdf]"             Exec exec xpdf
++ ""                         Nop
++ "&H. $[gt.Chmsee]"           Exec exec chmsee 
++ "&M. $[gt.Xchm]"             Exec exec xchm
++ ""                         Nop
++ "&S. $[gt.Shotwell]"         Exec exec shotwell
++ "&G. $[gt.Gqview]"           Exec exec gqview
++ "&I. $[gt.Gimp]"             Exec exec gimp
+
+DestroyMenu MenuQuitVerify
+AddToMenu MenuQuitVerify "$[gt.Handle Fvwm]" Title
++ "&R. $[gt.Refresh Screen]"   Refresh
++ "&A. $[gt.Restart]"          Restart
++ "&X. $[gt.Just an Xterm]"    Restart xterm -n '"X Console"' -T '"X Console"'
++ ""                         Nop
++ "&O. $[gt.FvwmConsole]"          Module FvwmConsole
++ ""                         Nop
++ "&K. xkill"                  Exec exec xkill
++ ""                         Nop
++ "&Q. $[gt.Really Quit]"      Quit
++ ""                         Nop
++ "&N. $[gt.No, Don't Quit]" Nop
+
+################## FvwmButtons button-bar ################################
+# DestroyModuleConfig FvwmButtons: *
+
+
+##########################FvwmWinList##################################
+DestroyModuleConfig FvwmWinList: *
+*FvwmWinList: Back #908090
+*FvwmWinList: Fore Black
+#*FvwmWinList: FocusColorset 2
+*FvwmWinList: FocusFore Red
+#*FvwmWinList: Font -adobe-helvetica-bold-r-*-*-10-*-*-*-*-*-*-*
+*FvwmWinList: Font "StringEncoding=UTF-8:xft:文泉驿微米黑:size=11:encoding=iso10646-1"
+*FvwmWinList: Action Click1 Iconify false, Focus
+*FvwmWinList: Action Click2 Iconify toggle
+*FvwmWinList: Action Click3 Module FvwmIdent
+*FvwmWinList: UseSkipList
+*FvwmWinList: Geometry +1+1
+
+######################## Functions ##########################
+DestroyFunc FuncFvwmMailXmh
+AddToFunc FuncFvwmMailXmh
++ I Next [$0] Iconify false
++ I Next [$0] Focus
++ I None [$0] Exec $0 $1
+
+DestroyFunc FuncFvwmMoveOrRaise
+AddToFunc FuncFvwmMoveOrRaise
++ I Raise
++ M Move
++ D Lower
+
+DestroyFunc FuncFvwmMaximize
+AddToFunc FuncFvwmMaximize
++ M Maximize   0 100
++ H Maximize   0 100
++ C Maximize   0  80
++ D Maximize 100 100
+
+DestroyFunc FuncFvwmMoveOrIconify
+AddToFunc FuncFvwmMoveOrIconify
++ I Raise
++ M Move
++ D Iconify
+
+DestroyFunc FuncFvwmResizeOrRaise
+AddToFunc FuncFvwmResizeOrRaise
++ I Raise
++ M Resize
++ D Lower
+
+DestroyFunc FuncFvwmPrint
+AddToFunc FuncFvwmPrint
++ I Raise
++ I Exec xdpr -id $w
+
+DestroyFunc FuncFvwmPrintReverse
+AddToFunc FuncFvwmPrintReverse
++ I Raise
++ I Exec xdpr 1/2 -h -rv -id $w
+
+DestroyFunc FuncFvwmFocusPolicyChange
+AddToFunc FuncFvwmFocusPolicyChange
++ I Style * $0
++ I Recapture
+
