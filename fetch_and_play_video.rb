@@ -4,16 +4,52 @@ require "open-uri"
 require "mail"
 require "gtk2"
 
-include "notify_mail"
+Mail.defaults do
+  delivery_method :smtp, {
+    address: "smtp.gmail.com",
+    user_name: "xinye181920",
+    password: "xinye.181920",
+    authentication: "plain",
+  }
+end
 
-current_path = File.dirname(__FILE__)
+def mail_notification(msg)
+  mail = Mail.deliver do
+    to "13816956163@139.com"
+    from "xinye181920@gmail.com"
+    subject "xinye video program error!"
+    text_part do
+      body msg
+    end
+  end
+  puts "notification mail sent!"
+rescue => e
+  puts e
+end
 
-def video_in_folder(path)
-  Dir.glob(File.join(current_path,"*")).first.split("/").last
+def current_path
+  File.dirname(__FILE__)
+end
+def download_path
+  File.join(File.dirname(__FILE__),"downloads")
+end
+
+def video_in_folder
+  video_path = Dir.glob(File.join(download_path,"*")).first
+  if video_path
+    video_path.split("/").last
+  else
+    nil
+  end
 end
 
 def net_connected?
-  true if open("http://www.xinyegroup.com/dalaoju.html")
+  loop do
+    break if open("http://www.xinyegroup.com/dalaoju.html")
+    system "zenity --error --text='网络连接异常！'"
+    sleep 3
+    system "killall zenity"
+  end
 rescue => e
   puts e
   mail_notification e.to_s
@@ -21,7 +57,7 @@ end
 
 def clean_old_files
   puts "clean all old files"
-  Dir.glob(File.join(current_path,"*")).each do |f|
+  Dir.glob(File.join(download_path,"*")).each do |f|
     puts "deleted file: #{f}" if File.delete f
   end
 rescue => e
@@ -37,13 +73,8 @@ rescue => e
 end
 
 def new_video
-  loop do
-    if net_connected?
-      break
-    else
-      system "zenity --error --text='网络连接异常！'"
-    end
-  end
+  net_connected?
+
   video_url = open("http://www.xinyegroup.com/dalaoju.html").read.strip
   video_name = video_url.split("/").last
   if video_name == video_in_folder then
@@ -56,7 +87,7 @@ rescue => e
   mail_notification e.to_s
 end
 
-play_video File.join(current_path,"downloads",video_in_folder)
+play_video File.join(download_path,video_in_folder) if video_in_folder
 
 loop do
   begin
@@ -65,11 +96,11 @@ loop do
     puts "updated..."
     system "zenity --info --text='找到视频，正在努力下载，请确保网络正常...' &"
     clean_old_files
-    download = system "wget -c #{video_path}"
+    download = system "wget -c --directory-prefix=#{download_path} #{video_path}"
     if download then
       system "killall zenity"
       system "killall mplayer"
-      system "mplayer -fs -loop 0 #{video_in_folder} &"
+      play_video File.join(download_path,video_in_folder) if video_in_folder
     else
       puts "download error!"
       raise "download error!"
