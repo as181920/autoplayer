@@ -55,10 +55,12 @@ rescue => e
   mail_notification e.to_s
 end
 
-def clean_old_files
+def clean_old_files(new_video_name)
   puts "clean all old files"
   Dir.glob(File.join(download_path,"*")).each do |f|
-    puts "deleted file: #{f}" if File.delete f
+    unless f.split("/").last == new_video_name
+      puts "deleted file: #{f}" if File.delete f
+    end
   end
 rescue => e
   puts e
@@ -73,14 +75,14 @@ rescue => e
 end
 
 def new_video
-  net_connected?
-
-  video_url = open("http://www.xinyegroup.com/dalaoju.html").read.strip
-  video_name = video_url.split("/").last
-  if video_name == video_in_folder then
-    false
-  else
-    video_url
+  if net_connected?
+    video_url = open("http://www.xinyegroup.com/dalaoju.html").read.strip
+    video_name = video_url.split("/").last
+    if video_name == video_in_folder then
+      return false
+    else
+      return video_url
+    end
   end
 rescue => e
   puts e
@@ -95,9 +97,9 @@ loop do
   if video_path = new_video
     puts "updated..."
     system "zenity --info --text='找到视频，正在努力下载，请确保网络正常...' &"
-    clean_old_files
     download = system "wget -c --directory-prefix=#{download_path} #{video_path}"
     if download then
+      clean_old_files video_path.strip.split("/").last
       system "killall zenity"
       system "killall mplayer"
       play_video File.join(download_path,video_in_folder) if video_in_folder
