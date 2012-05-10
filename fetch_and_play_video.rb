@@ -104,7 +104,7 @@ loop do
       clean_old_files video_path.strip.split("/").last
       system "killall zenity"
       #system "killall mplayer"
-      system "killall cvlc"
+      system "killall vlc"
       play_video File.join(download_path,video_in_folder) if video_in_folder
     else
       puts "download error!"
