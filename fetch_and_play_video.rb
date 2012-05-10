@@ -46,9 +46,9 @@ end
 def net_connected?
   loop do
     break if open("http://www.xinyegroup.com/dalaoju.html")
-    system "zenity --error --text='网络连接异常！'"
-    sleep 3
-    system "killall zenity"
+    system "zenity --timeout=3 --error --text='网络异常！'"
+    #sleep 3
+    #system "killall zenity"
   end
   true
 rescue => e
@@ -98,11 +98,11 @@ loop do
   puts "检查是否有更新--->"
   if video_path = new_video
     puts "updated..."
-    system "zenity --info --text='找到视频，正在努力下载，请确保网络正常...' &"
-    download = system "wget -c --directory-prefix=#{download_path} #{video_path}"
+    #system "zenity --info --text='更新视频中' &"
+    download = system "wget -c --progress=bar:force --directory-prefix=#{download_path} #{video_path} 2>&1 | zenity --title='更新视频' --progress --auto-close --auto-kill"
     if download then
       clean_old_files video_path.strip.split("/").last
-      system "killall zenity"
+      #system "killall zenity"
       #system "killall mplayer"
       #system "killall vlc"
       play_video File.join(download_path,video_in_folder) if video_in_folder
