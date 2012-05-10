@@ -70,7 +70,7 @@ end
 
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
-  system "vlc -fL --sout-asf-title '' #{video} &"
+  system "vlc -fL --no-video-title-show #{video} &"
 rescue => e
   puts e
   mail_notification e.to_s
