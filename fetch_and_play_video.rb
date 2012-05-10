@@ -70,7 +70,7 @@ end
 
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
-  system "cvlc -fL --no-video-title-show #{video} &"
+  system "cvlc -fL --one-instance --no-video-title-show #{video} &"
 rescue => e
   puts e
   mail_notification e.to_s
@@ -104,7 +104,7 @@ loop do
       clean_old_files video_path.strip.split("/").last
       system "killall zenity"
       #system "killall mplayer"
-      system "killall vlc"
+      #system "killall vlc"
       play_video File.join(download_path,video_in_folder) if video_in_folder
     else
       puts "download error!"
