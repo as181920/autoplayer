@@ -69,7 +69,8 @@ rescue => e
 end
 
 def play_video(video)
-  system "mplayer -fs -loop 0 #{video} &"
+  #system "mplayer -fs -loop 0 #{video} &"
+  system "vlc -fL --sout-asf-title '' #{video} &"
 rescue => e
   puts e
   mail_notification e.to_s
@@ -102,7 +103,8 @@ loop do
     if download then
       clean_old_files video_path.strip.split("/").last
       system "killall zenity"
-      system "killall mplayer"
+      #system "killall mplayer"
+      system "killall vlc"
       play_video File.join(download_path,video_in_folder) if video_in_folder
     else
       puts "download error!"
