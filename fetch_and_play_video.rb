@@ -50,6 +50,7 @@ def net_connected?
     sleep 3
     system "killall zenity"
   end
+  true
 rescue => e
   puts e
   mail_notification e.to_s
