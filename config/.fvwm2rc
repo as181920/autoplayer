@@ -67,7 +67,7 @@ Mouse 3 TSIF    A       RaiseLower
 AddToFunc StartFunction
 + I Module FvwmButtons
 #+ I Module FvwmWinList
-#+ I Exec exec `qiv -x -m /home/andersen/Pictures/handsmini.jpg`
++ I Exec exec `qiv -x -m /home/xinye/autoplayer/config/bg.jpg`
 + I Exec exec `/usr/bin/ruby /home/xinye/autoplayer/fetch_and_play_video.rb`
 # + I Module FvwmPager
 
