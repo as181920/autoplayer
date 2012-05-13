@@ -1,4 +1,4 @@
-DeskTopSize 2x3
+DeskTopSize 1x1
 ColormapFocus FollowsMouse
 SnapAttraction 20 All Screen
 
@@ -34,11 +34,6 @@ Key Next         A       SCM     Next [*] Focus
 Key Prior        A       SCM     Prev [*] Focus
 Key Super_L A A WindowList
 Key 1 A M GotoPage 0 0
-Key 2 A M GotoPage 1 0
-Key 3 A M GotoPage 0 1
-Key 4 A M GotoPage 1 1
-Key 5 A M GotoPage 0 2
-Key 6 A M GotoPage 1 2
 
 # Basic Mouse controls:
 Mouse 1 T   A FuncFvwmRaiseLowerX Move
