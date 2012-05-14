@@ -70,7 +70,7 @@ end
 
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
-  system "cvlc -fL --one-instance --no-video-title-show --aspect-ratio=16:9 #{video} &"
+  system "cvlc -fL --one-instance --no-video-title-show --aspect-ratio=16:9 #{video} -d"
 rescue => e
   puts e
   mail_notification e.to_s
