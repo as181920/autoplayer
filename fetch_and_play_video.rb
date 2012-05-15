@@ -2,7 +2,6 @@
 #require "logger"
 require "open-uri"
 require "mail"
-require "gtk2"
 
 Mail.defaults do
   delivery_method :smtp, {
@@ -120,5 +119,4 @@ loop do
     sleep 30
   end
 end
-
 
