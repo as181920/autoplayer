@@ -45,13 +45,17 @@ end
 def net_connected?
   loop do
     break if open("http://www.xinyegroup.com/dalaoju.html")
-    system "zenity --timeout=3 --error --text='网络异常！'"
-    #sleep 3
-    #system "killall zenity"
+    #system "zenity --timeout=3 --error --text='网络异常！'"
+    system "qiv --center #{current_path}/config/offline.jpg"
+    sleep 3
+    system "killall qiv"
   end
   true
 rescue => e
   puts e
+  system "qiv --center #{current_path}/config/offline.jpg"
+  sleep 3
+  system "killall qiv"
   mail_notification e.to_s
 end
 
