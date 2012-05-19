@@ -46,14 +46,15 @@ def net_connected?
   loop do
     break if open("http://www.xinyegroup.com/dalaoju.html")
     #system "zenity --timeout=3 --error --text='网络异常！'"
-    system "qiv --center #{current_path}/config/offline.jpg"
+    system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
     sleep 3
     system "killall qiv"
   end
+  system "killall qiv"
   true
 rescue => e
   puts e
-  system "qiv --center #{current_path}/config/offline.jpg"
+  system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
   sleep 3
   system "killall qiv"
   mail_notification e.to_s
@@ -73,7 +74,7 @@ end
 
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
-  system "cvlc -fL --one-instance --no-video-title-show --aspect-ratio=16:9 #{video} -d"
+  system "cvlc -fL --one-instance --no-video-title-show --no-video-on-top --aspect-ratio=16:9 #{video} -d"
 rescue => e
   puts e
   mail_notification e.to_s
