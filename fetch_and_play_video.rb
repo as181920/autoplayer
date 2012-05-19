@@ -27,7 +27,9 @@ rescue => e
   puts e
 end
 
-location = YAML.load(File.read(File.join(File.dirname(__FILE__),"config/location.yml")))["loc"]
+def location
+  YAML.load(File.read(File.join(File.dirname(__FILE__),"config/location.yml")))["loc"]
+end
 
 def current_path
   File.dirname(__FILE__)
