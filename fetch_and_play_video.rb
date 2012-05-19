@@ -2,6 +2,7 @@
 #require "logger"
 require "open-uri"
 require "mail"
+require "yaml"
 
 Mail.defaults do
   delivery_method :smtp, {
@@ -26,6 +27,8 @@ rescue => e
   puts e
 end
 
+location = YAML.load(File.read(File.join(File.dirname(__FILE__),"config/location.yml")))["loc"]
+
 def current_path
   File.dirname(__FILE__)
 end
@@ -44,7 +47,7 @@ end
 
 def net_connected?
   loop do
-    break if open("http://www.xinyegroup.com/dalaoju.html")
+    break if open("http://www.xinyegroup.com/dalaoju/#{location}.html")
     #system "zenity --timeout=3 --error --text='网络异常！'"
     system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
     sleep 3
@@ -82,7 +85,7 @@ end
 
 def new_video
   if net_connected?
-    video_url = open("http://www.xinyegroup.com/dalaoju.html").read.strip
+    video_url = open("http://www.xinyegroup.com/dalaoju/#{location}.html").read.strip
     video_name = video_url.split("/").last
     if video_name == video_in_folder then
       return false
