@@ -1,0 +1,29 @@
+<div style="display: 'inline'">
+  <% if cnt_pages > 1 then %>
+    <% cnt_pages.times do |i| %>
+      <%= "[" if (params[:page].nil? and i==0) or params[:page].to_i==i+1 %>
+      <a href=<%="/dalaoju?page=#{i+1}"%>> <%=i+1%> </a>
+      <%= "]" if (params[:page].nil? and i==0) or params[:page].to_i==i+1 %>
+    <% end %>
+  <% end %>
+</div>
+
+<table border="1">
+  <tr>
+    <th>时间</th>
+    <th>状态</th>
+  </tr>
+
+  <% logs.each do |log| %>
+    <tr>
+      <td><%=log["created_at"].localtime.strftime("%Y-%-m-%-d %H:%M:%S") if log["created_at"]%></td>
+      <td>
+        <p>机器配置ID：<strong><%=log["location"]%></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 机器外网IP：<strong><%=log["ip"]%></strong></p>
+        <p>本地视频文件：<%=log["video_in_folder"]%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 网络视频文件：<%=log["video_on_net"]%></p>
+        <p>机器运行状态：<pre><%=log["performance"]%></pre></p>
+        <p>相关进程：<pre><%=log["process"]%></pre></p>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
