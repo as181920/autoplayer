@@ -50,7 +50,7 @@ loop do
     Net::HTTP.post_form URI.parse("http://localhost:4567/dalaoju"), status
   rescue => e
     puts e
-    sleep 30
+    sleep 60
   end
-  sleep 3
+  sleep 300
 end
