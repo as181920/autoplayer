@@ -3,3 +3,4 @@
 *.swp
 downloads
 config/location.yml
+nohup.out
