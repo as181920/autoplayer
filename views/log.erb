@@ -1,12 +1,8 @@
 <p>当前时间：<%=Time.now%></p>
 <div style="display: 'inline'">
-  <% if cnt_pages > 1 then %>
-    <% cnt_pages.times do |i| %>
-      <%= "[" if (params[:page].nil? and i==0) or params[:page].to_i==i+1 %>
-      <a href=<%="/dalaoju?page=#{i+1}"%>> <%=i+1%> </a>
-      <%= "]" if (params[:page].nil? and i==0) or params[:page].to_i==i+1 %>
-    <% end %>
-  <% end %>
+  <a href=<%="/dalaoju?page=#{(params[:page].to_i>1) ? params[:page].to_i-1 : 1}"%>> < </a>
+  <a href=<%="/dalaoju?page=#{[params[:page].to_i,1].max}"%>> <%=[params[:page].to_i,1].max%> </a>
+  <a href=<%="/dalaoju?page=#{[params[:page].to_i,1].max+1}"%>> > </a>
 </div>
 
 <table border="1">
