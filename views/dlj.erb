@@ -1,8 +1,8 @@
 <p>当前时间：<%=Time.now%></p>
 <div style="display: 'inline'">
-  <a href=<%="/dalaoju?page=#{(params[:page].to_i>1) ? params[:page].to_i-1 : 1}"%>> < </a>
-  <a href=<%="/dalaoju?page=#{[params[:page].to_i,1].max}"%>> <%=[params[:page].to_i,1].max%> </a>
-  <a href=<%="/dalaoju?page=#{[params[:page].to_i,1].max+1}"%>> > </a>
+  <a href=<%="/dlj?page=#{(params[:page].to_i>1) ? params[:page].to_i-1 : 1}"%>> < </a>
+  <a href=<%="/dlj?page=#{[params[:page].to_i,1].max}"%>> <%=[params[:page].to_i,1].max%> </a>
+  <a href=<%="/dlj?page=#{[params[:page].to_i,1].max+1}"%>> > </a>
 </div>
 
 <table border="1">

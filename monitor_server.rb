@@ -12,15 +12,15 @@ end
 
 
 get "/dalaoju" do
-  @logs = Coll.find.sort(["created_at","descending"]).skip([(params[:page].to_i-1)*10,0].max).limit(20)
-  @cnt_pages = (Coll.find.count.to_f / 10).ceil
-  erb :log, locals: {page: params[:page], cnt_pages: @cnt_pages, logs: @logs} 
+  @per_page = 20
+  @logs = Coll.find.sort(["created_at","descending"]).skip([(params[:page].to_i-1)*@per_page,0].max).limit(@per_page)
+  erb :log, locals: {page: params[:page], logs: @logs} 
 end
 
 get "/dlj" do
-  @logs = Coll.find.sort(["created_at","descending"]).skip([(params[:page].to_i-1)*10,0].max).limit(20)
-  @cnt_pages = (Coll.find.count.to_f / 10).ceil
-  erb :dlj, locals: {page: params[:page], cnt_pages: @cnt_pages, logs: @logs} 
+  @per_page = 50
+  @logs = Coll.find.sort(["created_at","descending"]).skip([(params[:page].to_i-1)*@per_page,0].max).limit(@per_page)
+  erb :dlj, locals: {page: params[:page], logs: @logs} 
 end
 
 post "/dalaoju" do
