@@ -16,7 +16,7 @@
       <td><%=log["created_at"].localtime.strftime("%Y-%-m-%-d %H:%M") if log["created_at"]%></td>
       <td>
         <p>ID：<strong><%=log["location"]%></strong>(<%=log["video_in_folder"]%>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IP：<strong><%=log["ip"]%></strong>(<%=log["video_on_net"].split("/").last%>)</p>
-        <p>Status：<%=log["performance"][0,60]%></p>
+        <p>Status：<%=log["performance"][0,61]%></p>
       </td>
     </tr>
   <% end %>
