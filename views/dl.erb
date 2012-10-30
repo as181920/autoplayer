@@ -1,0 +1,23 @@
+<p>当前时间：<%=Time.now%></p>
+<div style="display: 'inline'">
+  <a href=<%="/dlj?page=#{(params[:page].to_i>1) ? params[:page].to_i-1 : 1}"%>> < </a>
+  <a href=<%="/dlj?page=#{[params[:page].to_i,1].max}"%>> <%=[params[:page].to_i,1].max%> </a>
+  <a href=<%="/dlj?page=#{[params[:page].to_i,1].max+1}"%>> > </a>
+</div>
+
+<table border="1">
+  <tr>
+    <th>时间</th>
+    <th>状态</th>
+  </tr>
+
+  <% logs.each do |log| %>
+    <tr>
+      <td><%=log["created_at"].localtime.strftime("%Y-%-m-%-d %H:%M") if log["created_at"]%></td>
+      <td>
+        <p>ID：<strong><%=log["location"]%></strong>(<%=log["video_in_folder"]%>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IP：<strong><%=log["ip"]%></strong>(<%=log["video_on_net"].split("/").last%>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Status：<%=log["performance"][0,61]%></p>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
