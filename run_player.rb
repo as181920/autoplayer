@@ -1,3 +1,3 @@
 require "daemons"
 
-Daemons.run "fetch_and_play_video.rb"
+Daemons.run "/home/pi/autoplayer/fetch_and_play_video.rb"

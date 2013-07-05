@@ -18,8 +18,8 @@ if [ "$_IP" ]; then
 fi
 
 
+echo run ruby program
 /usr/bin/ruby /home/pi/autoplayer/run_player.rb start
-
 /usr/bin/ruby /home/pi/autoplayer/run_monitor.rb start
 
 exit 0
