@@ -78,10 +78,10 @@ rescue => e
 end
 
 def play_video(video)
-  #system "mplayer -fs -loop 0 #{video} &"
-  #system "cvlc -fL --one-instance --no-video-title-show --no-video-on-top #{video} -d"
   system "killall omxplayer.bin &"
-  system "omxplayer --align --center --adev hdmi #{video} &"
+
+  system "sh #{File.join(File.dirname(__FILE__),"loop_omxplayer.sh")} #{video} &"
+  #system "omxplayer --align center --adev hdmi #{video} &"
 rescue => e
   puts e
   mail_notification e.to_s
