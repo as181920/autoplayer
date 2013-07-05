@@ -79,13 +79,16 @@ end
 
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
-  system "cvlc -fL --one-instance --no-video-title-show --no-video-on-top #{video} -d"
+  #system "cvlc -fL --one-instance --no-video-title-show --no-video-on-top #{video} -d"
+  system "killall omxplayer"
+  system "omxplayer --adev hdmi #{video}"
 rescue => e
   puts e
   mail_notification e.to_s
 end
 
 def new_video
+=begin
   if net_connected?
     video_url = open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}").read.strip
     video_name = video_url.split("/").last
@@ -94,6 +97,19 @@ def new_video
     else
       return video_url
     end
+  end
+=end
+
+  video_url = open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}").read.strip rescue nil
+  if video_url.present?
+    video_name = video_url.split("/").last
+    if video_name == video_in_folder then
+      return false
+    else
+      return video_url
+    end
+  else
+    return nil
   end
 rescue => e
   puts e
@@ -108,7 +124,7 @@ loop do
   if video_path = new_video
     puts "updated..."
     #system "zenity --info --text='更新视频中' &"
-    download = system "wget -c --progress=bar:force --directory-prefix=#{download_path} #{video_path} 2>&1 | zenity --title='更新视频' --progress --auto-close --auto-kill"
+    download = system "wget -c --progress=bar:force --directory-prefix=#{download_path} #{video_path} 2>&1"
     if download then
       clean_old_files video_path.strip.split("/").last
       #system "killall zenity"
