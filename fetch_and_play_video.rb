@@ -80,8 +80,8 @@ end
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
   #system "cvlc -fL --one-instance --no-video-title-show --no-video-on-top #{video} -d"
-  system "killall omxplayer &"
-  system "omxplayer --adev hdmi #{video}"
+  system "killall omxplayer.bin &"
+  system "omxplayer --align --center --adev hdmi #{video} &"
 rescue => e
   puts e
   mail_notification e.to_s
@@ -100,7 +100,8 @@ def new_video
   end
 =end
 
-  video_url = open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}").read.strip rescue nil
+  #video_url = open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}").read.strip rescue nil
+  video_url = "http://downloads.notes18.com/195-my-favorite-web-apps-in-2009.m4v"
   if video_url
     video_name = video_url.split("/").last
     if video_name == video_in_folder then
