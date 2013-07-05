@@ -80,7 +80,7 @@ end
 def play_video(video)
   #system "mplayer -fs -loop 0 #{video} &"
   #system "cvlc -fL --one-instance --no-video-title-show --no-video-on-top #{video} -d"
-  system "killall omxplayer"
+  system "killall omxplayer &"
   system "omxplayer --adev hdmi #{video}"
 rescue => e
   puts e
@@ -101,7 +101,7 @@ def new_video
 =end
 
   video_url = open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}").read.strip rescue nil
-  if video_url.present?
+  if video_url
     video_name = video_url.split("/").last
     if video_name == video_in_folder then
       return false
