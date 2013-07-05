@@ -51,17 +51,17 @@ def net_connected?
   loop do
     break if open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}")
     #system "zenity --timeout=3 --error --text='网络异常！'"
-    system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
+    #system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
     sleep 3
-    system "killall qiv"
+    #system "killall qiv"
   end
-  system "killall qiv"
+  #system "killall qiv"
   true
 rescue => e
   puts e
-  system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
+  #system "qiv -W 35 --center #{current_path}/config/offline.jpg &"
   sleep 3
-  system "killall qiv"
+  #system "killall qiv"
   mail_notification e.to_s
 end
 
