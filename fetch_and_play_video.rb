@@ -78,9 +78,11 @@ rescue => e
 end
 
 def play_video(video)
+  system "ps x|grep loop|grep player| awk '{print $1}' |xargs kill"
   system "killall omxplayer.bin &"
 
-  system "sh #{File.join(File.dirname(__FILE__),"loop_omxplayer.sh")} #{video} &"
+  system "sh #{File.join(File.dirname(__FILE__),"loop_player.sh")} #{video} &"
+  #system "sh #{File.join(File.dirname(__FILE__),"loop_test_player.sh")} #{video} &"
   #system "omxplayer --align center --adev hdmi #{video} &"
 rescue => e
   puts e
