@@ -103,7 +103,8 @@ def new_video
 =end
 
   #video_url = open("http://www.xinyegroup.com/dalaoju/s.aspx?id=#{location}").read.strip rescue nil
-  video_url = "http://downloads.notes18.com/195-my-favorite-web-apps-in-2009.m4v"
+  video_url = open("http://downloads.notes18.com/video_url.html").read.strip rescue nil
+  #video_url = "http://downloads.notes18.com/195-my-favorite-web-apps-in-2009.m4v"
   if video_url
     video_name = video_url.split("/").last
     if video_name == video_in_folder then
