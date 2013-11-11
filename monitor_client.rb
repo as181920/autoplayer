@@ -48,7 +48,8 @@ loop do
   begin
     print "."
     status = {location: location, ip: internet_ip, video_in_folder: video_in_folder, video_on_net: video_on_net, performance: performance, process: process}
-    Net::HTTP.post_form URI.parse("http://www.younoter.com:82/dalaoju"), status
+    #Net::HTTP.post_form URI.parse("http://www.younoter.com:82/dalaoju"), status
+    Net::HTTP.post_form URI.parse("http://dlj.notes18.com:82/dalaoju"), status
   rescue => e
     puts e
     sleep 60
