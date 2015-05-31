@@ -68,8 +68,8 @@ AddToFunc StartFunction
 + I Module FvwmButtons
 #+ I Module FvwmWinList
 + I Exec exec `qiv -z ~/autoplayer/config/bg.jpg`
-+ I Exec exec `/usr/bin/ruby /home/xinye/autoplayer/fetch_and_play_video.rb`
-+ I Exec exec `/usr/bin/ruby /home/xinye/autoplayer/monitor_client.rb`
++ I Exec exec `/usr/bin/ruby ~/autoplayer/fetch_and_play_video.rb`
++ I Exec exec `/usr/bin/ruby ~/autoplayer/monitor_client.rb`
 # + I Module FvwmPager
 
 AddToFunc InitFunction
